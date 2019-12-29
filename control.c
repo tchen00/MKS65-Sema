@@ -69,3 +69,24 @@ void delete(){
     semctl(semid, 0, IPC_RMID);
     printf("Removed!\n");
 }
+
+int main(int argc, char * argv[]) {
+    int sem_id;
+    if (argc == 2) {
+        if (!strcmp(argv[1],"-c")) {
+            create();
+        }
+        else if (!strcmp(argv[1],"-v")) {
+            view();
+        }
+        else if (!strcmp(argv[1],"-r")) {
+            delete();
+        }
+        else
+            printf("Wrong input. Try ./control -c or ./control -v or ./control -r\n");
+        }
+    else {
+        printf("Wrong input. Try ./control -c or ./control -v or ./control -r\n");
+    }
+    return 0;
+}
