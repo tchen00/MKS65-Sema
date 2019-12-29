@@ -35,3 +35,37 @@ void create(){
           printf("Already created. Try running ./client or ./control -v\n");
       }
 }
+
+void view(){
+    printf("You have chosen to VIEW the story:\n");
+    int fd = open("story.txt", O_RDONLY);
+    if (fd == -1){
+        printf("Error in opening: %s\n", strerror(errno));
+        return;
+    }
+    char * file = calloc(2056, sizeof(char));
+    int last = read(fd, file, 2056);
+    if (last == -1){
+        printf("Error in reading: %s\n", strerror(errno));
+        return;
+    }
+    char* text = strrchr(file, '\n');
+    if (text){
+       *text = 0;
+     }
+    printf("%s\n", file);
+    free(file);
+    close(fd);
+    return;
+}
+
+void delete(){
+    printf("You have chosen to remove the story\n");
+    view();
+    remove("story.txt");
+    int shmid = shmget(KEY2, sizeof(int), 0);
+    int what = shmctl(shmid, IPC_RMID, NULL);
+    int semid = semget(KEY, 1, 0);
+    semctl(semid, 0, IPC_RMID);
+    printf("Removed!\n");
+}
