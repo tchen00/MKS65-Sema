@@ -1,6 +1,6 @@
-all: client.c control.c
-	gcc -o client client.c
+all: write.c control.c
+	gcc -o write write.c
 	gcc -o control control.c
 
 clean:
-	rm -rf client control *.o
+	rm -rf write control *.o
